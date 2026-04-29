@@ -1,4 +1,4 @@
-package com.nolink;
+package com.capylink.link;
 
 import io.quarkus.logging.Log;
 import io.quarkus.scheduler.Scheduled;
@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit;
 @ApplicationScoped
 public class LinkCleanupJob {
 
-    @ConfigProperty(name = "nolink.cleanup-grace-days")
+    @ConfigProperty(name = "capylink.cleanup-grace-days")
     int graceDays;
 
     @Scheduled(cron = "0 0 3 * * ?", identity = "link-cleanup")

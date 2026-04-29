@@ -1,4 +1,4 @@
-package com.nolink;
+package com.capylink.link;
 
 import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -18,10 +18,10 @@ public class LinkService {
     private static final int MAX_SLUG_ATTEMPTS = 5;
     private static final SecureRandom RANDOM = new SecureRandom();
 
-    @ConfigProperty(name = "nolink.ttl-days")
+    @ConfigProperty(name = "capylink.ttl-days")
     int ttlDays;
 
-    @ConfigProperty(name = "nolink.slug-length")
+    @ConfigProperty(name = "capylink.slug-length")
     int slugLength;
 
     @Transactional
@@ -39,7 +39,7 @@ public class LinkService {
                 return link;
             }
         }
-        Log.errorf("Slug collision %d times in a row — bump nolink.slug-length", MAX_SLUG_ATTEMPTS);
+        Log.errorf("Slug collision %d times in a row — bump capylink.slug-length", MAX_SLUG_ATTEMPTS);
         throw new WebApplicationException("Could not allocate slug", 503);
     }
 

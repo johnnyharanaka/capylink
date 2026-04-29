@@ -3,27 +3,86 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>noLink</title>
+    <meta name="color-scheme" content="dark">
+    <title>capylink — short URLs that disappear</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+    <div class="aurora" aria-hidden="true">
+        <span></span><span></span><span></span>
+    </div>
+
     <main>
-        <h1>noLink</h1>
-        <p class="sub">Short URLs that disappear in 21 days.</p>
+        <header>
+            <div class="brand">
+                <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#a78bfa"/>
+                            <stop offset="100%" stop-color="#22d3ee"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M11 21a6 6 0 0 1 0-8.5l3-3a6 6 0 0 1 8.5 8.5l-1.5 1.5"
+                          fill="none" stroke="url(#g)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M21 11a6 6 0 0 1 0 8.5l-3 3a6 6 0 0 1-8.5-8.5"
+                          fill="none" stroke="url(#g)" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
+                    <line x1="6" y1="26" x2="26" y2="6" stroke="#0b0b14" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="6" y1="26" x2="26" y2="6" stroke="url(#g)" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="wordmark">capy<em>link</em></span>
+            </div>
+        </header>
 
-        <form id="form">
-            <input type="url" id="url" name="url" placeholder="https://..." required autofocus>
-            <button type="submit">Shorten</button>
-        </form>
+        <section class="hero">
+            <h1>Short URLs that <span class="grad">disappear</span> in 21 days.</h1>
+            <p class="sub">No accounts. No tracking. No forever.</p>
 
-        <section id="result" hidden>
-            <a id="short" href="" target="_blank" rel="noopener"></a>
-            <button id="copy" type="button">Copy</button>
-            <p class="meta">Expires <time id="expires"></time></p>
+            <form id="form" autocomplete="off">
+                <div class="field">
+                    <input type="url" id="url" name="url" placeholder="Paste a long URL…" required autofocus
+                           spellcheck="false">
+                </div>
+                <button type="submit" id="submit">
+                    <span class="label">Shorten</span>
+                    <span class="spinner" aria-hidden="true"></span>
+                </button>
+            </form>
+
+            <section id="result" class="result" hidden aria-live="polite">
+                <div class="result-row">
+                    <a id="short" href="" target="_blank" rel="noopener"></a>
+                    <button id="copy" type="button" class="ghost" title="Copy to clipboard">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="9" y="9" width="11" height="11" rx="2"/>
+                            <path d="M5 15V5a2 2 0 0 1 2-2h10"/>
+                        </svg>
+                        <span class="copy-label">Copy</span>
+                    </button>
+                </div>
+                <p class="meta">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M12 7v5l3 2"/>
+                    </svg>
+                    Expires <time id="expires"></time> · <span id="countdown"></span>
+                </p>
+            </section>
+
+            <p id="error" class="error" hidden role="alert"></p>
         </section>
 
-        <p id="error" class="error" hidden></p>
+        <footer>
+            <span>21 days. Then gone.</span>
+            <span class="dot">·</span>
+            <a href="https://github.com" target="_blank" rel="noopener">capylink</a>
+        </footer>
     </main>
+
     <script src="/app.js"></script>
 </body>
 </html>

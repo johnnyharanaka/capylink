@@ -1,4 +1,4 @@
-package com.nolink;
+package com.capylink.link;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;

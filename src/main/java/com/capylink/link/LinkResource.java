@@ -1,4 +1,4 @@
-package com.nolink;
+package com.capylink.link;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -15,7 +15,7 @@ public class LinkResource {
     @Inject
     LinkService service;
 
-    @ConfigProperty(name = "nolink.base-url")
+    @ConfigProperty(name = "capylink.base-url")
     String baseUrl;
 
     @POST

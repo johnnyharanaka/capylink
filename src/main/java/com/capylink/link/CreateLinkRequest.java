@@ -1,4 +1,4 @@
-package com.nolink;
+package com.capylink.link;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

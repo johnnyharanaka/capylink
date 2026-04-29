@@ -1,14 +1,14 @@
 services:
-  nolink:
+  capylink:
     build: .
-    container_name: nolink-backend
+    container_name: capylink-backend
     restart: unless-stopped
     env_file:
       - ./.env
     environment:
       QUARKUS_PROFILE: prod
       # Postgres lives in the capypad stack; we reach it via the shared network.
-      NOLINK_DB_URL: jdbc:postgresql://postgres:5432/nolink
+      CAPYLINK_DB_URL: jdbc:postgresql://postgres:5432/capylink
     ports:
       # 127.0.0.1 only — a reverse proxy (nginx/Caddy) on the droplet exposes it.
       # 8081 because capypad-backend already binds 8080.
