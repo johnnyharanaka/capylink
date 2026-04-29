@@ -80,7 +80,11 @@ export default function App() {
           Short URLs that disappear in 21 days.
         </p>
 
-        <form onSubmit={submit} className="w-full max-w-md" autoComplete="off">
+        <form
+          onSubmit={submit}
+          className="w-full max-w-md flex flex-col gap-3"
+          autoComplete="off"
+        >
           <input
             className="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg px-4 py-3 text-lg text-center text-stone-800 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-stone-300 dark:focus:ring-stone-600 placeholder:text-stone-300 dark:placeholder:text-stone-600 transition-colors disabled:opacity-60"
             type="url"
@@ -93,6 +97,23 @@ export default function App() {
             autoFocus
             required
           />
+          <button
+            type="submit"
+            disabled={busy || !url.trim()}
+            className="w-full inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 font-mono text-sm font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 disabled:opacity-50 disabled:cursor-not-allowed transition-[filter,opacity] shadow-sm shadow-purple-500/20"
+          >
+            {busy ? (
+              <>
+                <span
+                  className="inline-block w-3.5 h-3.5 rounded-full border-2 border-white/40 border-t-white animate-spin"
+                  aria-hidden="true"
+                />
+                shortening…
+              </>
+            ) : (
+              <>shorten</>
+            )}
+          </button>
         </form>
 
         {result && expiresAt && (
