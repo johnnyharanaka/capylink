@@ -1,5 +1,8 @@
 #Maven
 target/
+
+# Frontend build output baked into backend resources at release time
+backend/src/main/resources/META-INF/resources/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -39,6 +42,7 @@ nb-configuration.xml
 # Local environment
 .env
 .env.*
+!.env.example
 .envrc
 
 # Quarkus profile overrides (devs often stash real credentials here)
