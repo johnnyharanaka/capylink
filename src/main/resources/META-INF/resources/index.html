@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>noLink</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <main>
+        <h1>noLink</h1>
+        <p class="sub">Short URLs that disappear in 21 days.</p>
+
+        <form id="form">
+            <input type="url" id="url" name="url" placeholder="https://..." required autofocus>
+            <button type="submit">Shorten</button>
+        </form>
+
+        <section id="result" hidden>
+            <a id="short" href="" target="_blank" rel="noopener"></a>
+            <button id="copy" type="button">Copy</button>
+            <p class="meta">Expires <time id="expires"></time></p>
+        </section>
+
+        <p id="error" class="error" hidden></p>
+    </main>
+    <script src="/app.js"></script>
+</body>
+</html>

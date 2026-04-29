@@ -1,0 +1,7 @@
+# Deny everything by default, then allow only the Quarkus build output.
+# `!target/quarkus-app` is the dir; `!target/quarkus-app/**` is needed to
+# recursively re-include subdirs (lib/, app/, quarkus/) — without it `*`
+# at the top still matches their contents.
+*
+!target/quarkus-app
+!target/quarkus-app/**
