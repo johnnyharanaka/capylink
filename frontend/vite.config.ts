@@ -4,9 +4,10 @@ import { fileURLToPath, URL } from "node:url";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
-// Vite builds the SPA into the backend's static-resources dir so Quarkus
-// serves the UI from the same host as the API + redirect endpoints.
-// In dev the SPA runs on its own Vite server and proxies /api to the backend.
+// Vite builds the SPA into dist/, which the deploy workflow publishes to
+// GitHub Pages at link.eiji.dev. The backend lives on a separate origin
+// (api.eiji.dev); in dev the SPA runs on its own Vite server and proxies
+// /api to the backend.
 export default defineConfig(() => ({
   base: "/",
   plugins: [react(), tailwindcss()],
@@ -16,7 +17,7 @@ export default defineConfig(() => ({
     },
   },
   build: {
-    outDir: "../backend/src/main/resources/META-INF/resources",
+    outDir: "dist",
     emptyOutDir: true,
   },
   server: {

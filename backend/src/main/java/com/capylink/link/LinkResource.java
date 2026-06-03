@@ -28,4 +28,17 @@ public class LinkResource {
         );
         return Response.status(Response.Status.CREATED).entity(body).build();
     }
+
+    // Resolve a slug to its target as JSON. The Pages-hosted SPA calls this and
+    // redirects in the browser, since GitHub Pages can't serve a 302 itself.
+    // Same TTL semantics as the server-side redirect: 410 expired, 404 unknown.
+    @GET
+    @Path("/{slug:[A-Za-z0-9]+}")
+    public Response resolve(@PathParam("slug") String slug) {
+        return Link.findBySlug(slug)
+                .map(link -> link.isExpired()
+                        ? Response.status(Response.Status.GONE).build()
+                        : Response.ok(new ResolveLinkResponse(link.slug, link.targetUrl, link.expiresAt)).build())
+                .orElseGet(() -> Response.status(Response.Status.NOT_FOUND).build());
+    }
 }

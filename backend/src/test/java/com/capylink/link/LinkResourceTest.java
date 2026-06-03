@@ -105,6 +105,42 @@ class LinkResourceTest {
     }
 
     @Test
+    void resolveReturnsTargetUrlAsJson() {
+        String slug = given().contentType("application/json").body("{\"url\":\"https://example.com/resolve\"}")
+                .when().post("/api/links")
+                .then().statusCode(201)
+                .extract().path("slug");
+
+        given().when().get("/api/links/" + slug)
+                .then().statusCode(200)
+                .body("slug", equalTo(slug))
+                .body("targetUrl", equalTo("https://example.com/resolve"))
+                .body("expiresAt", notNullValue());
+    }
+
+    @Test
+    void resolveUnknownSlugReturns404() {
+        given().when().get("/api/links/zzzzzzz")
+                .then().statusCode(404);
+    }
+
+    @Test
+    void resolveExpiredSlugReturns410() {
+        String slug = "rexpired" + (System.nanoTime() % 100);
+        QuarkusTransaction.requiringNew().run(() -> {
+            Link link = new Link();
+            link.slug = slug;
+            link.targetUrl = "https://example.com/old";
+            link.createdAt = Instant.now().minus(30, ChronoUnit.DAYS);
+            link.expiresAt = Instant.now().minus(1, ChronoUnit.DAYS);
+            link.persist();
+        });
+
+        given().when().get("/api/links/" + slug)
+                .then().statusCode(410);
+    }
+
+    @Test
     void unknownSlugReturns404() {
         given().redirects().follow(false)
                 .when().get("/zzzzzzz")
