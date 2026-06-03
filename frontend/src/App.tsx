@@ -11,6 +11,14 @@ const dateFmt = new Intl.DateTimeFormat(undefined, {
   day: "numeric",
 });
 
+// The input accepts bare hosts (e.g. "eiji.dev") for convenience, but the
+// backend requires an http(s) scheme (@Pattern in CreateLinkRequest), so we
+// prefix https:// when the user omits it.
+function normalizeUrl(raw: string): string {
+  const trimmed = raw.trim();
+  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+}
+
 function formatCountdown(target: Date): string {
   const ms = target.getTime() - Date.now();
   if (ms <= 0) return "expired";
@@ -36,7 +44,7 @@ export default function App() {
     setResult(null);
     setBusy(true);
     try {
-      const data = await createLink(url);
+      const data = await createLink(normalizeUrl(url));
       setResult(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -87,10 +95,11 @@ export default function App() {
         >
           <input
             className="w-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-lg px-4 py-3 text-lg text-center text-stone-800 dark:text-stone-100 focus:outline-none focus:ring-2 focus:ring-stone-300 dark:focus:ring-stone-600 placeholder:text-stone-300 dark:placeholder:text-stone-600 transition-colors disabled:opacity-60"
-            type="url"
+            type="text"
+            inputMode="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://…"
+            placeholder="eiji.dev or https://…"
             aria-label="URL to shorten"
             disabled={busy}
             spellCheck={false}

@@ -62,6 +62,20 @@ class LinkResourceTest {
     }
 
     @Test
+    void rejectsUrlWithWhitespace() {
+        given().contentType("application/json").body("{\"url\":\"https://foo bar.com\"}")
+                .when().post("/api/links")
+                .then().statusCode(400);
+    }
+
+    @Test
+    void rejectsHostWithoutDot() {
+        given().contentType("application/json").body("{\"url\":\"https://localhost\"}")
+                .when().post("/api/links")
+                .then().statusCode(400);
+    }
+
+    @Test
     void shortensAndReturnsExpectedShape() {
         given().contentType("application/json").body("{\"url\":\"https://example.com/foo\"}")
                 .when().post("/api/links")
