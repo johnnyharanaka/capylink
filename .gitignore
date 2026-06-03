@@ -1,7 +1,8 @@
 #Maven
 target/
 
-# Frontend build output baked into backend resources at release time
+# Legacy: the SPA used to be baked into backend resources; it now ships to
+# GitHub Pages from frontend/dist. Kept ignored so stale builds never commit.
 backend/src/main/resources/META-INF/resources/
 pom.xml.tag
 pom.xml.releaseBackup
