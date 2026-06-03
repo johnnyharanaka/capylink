@@ -49,6 +49,11 @@ jobs:
             -e "ssh -i ~/.ssh/id_deploy" \
             ./ root@${{ secrets.DROPLET_IP }}:/root/capylink/
 
+      - name: Ensure target dir exists on Droplet
+        run: |
+          ssh -i ~/.ssh/id_deploy root@${{ secrets.DROPLET_IP }} \
+            'mkdir -p /root/capylink/backend/target/quarkus-app'
+
       - name: Copy built JAR to Droplet
         run: |
           rsync -avz \
