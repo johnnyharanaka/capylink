@@ -76,6 +76,22 @@ class LinkResourceTest {
     }
 
     @Test
+    void rejectsUserinfoPhishingTrick() {
+        given().contentType("application/json").body("{\"url\":\"https://legit.com@evil.com\"}")
+                .when().post("/api/links")
+                .then().statusCode(400);
+    }
+
+    @Test
+    void allowsAtSignInPath() {
+        // '@' is legitimate in a path (e.g. Mastodon handles) — only the
+        // authority must be free of it.
+        given().contentType("application/json").body("{\"url\":\"https://example.com/@handle\"}")
+                .when().post("/api/links")
+                .then().statusCode(201);
+    }
+
+    @Test
     void shortensAndReturnsExpectedShape() {
         given().contentType("application/json").body("{\"url\":\"https://example.com/foo\"}")
                 .when().post("/api/links")

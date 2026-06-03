@@ -22,7 +22,15 @@ export default function Redirect({ slug }: { slug: string }) {
     let cancelled = false;
     resolveLink(slug)
       .then((link) => {
-        if (!cancelled) window.location.replace(link.targetUrl);
+        if (cancelled) return;
+        // Defense-in-depth: the backend only mints http(s) targets, but never
+        // hand the browser a javascript:/data: URL even if a stale row or a
+        // tampered response slips through.
+        if (!/^https?:\/\//i.test(link.targetUrl)) {
+          setState({ status: "error", message: "Unsafe redirect target." });
+          return;
+        }
+        window.location.replace(link.targetUrl);
       })
       .catch((err) => {
         if (cancelled) return;
