@@ -64,7 +64,7 @@ Local backend release: `(cd backend && ./mvnw package) && docker compose build &
 
 Postgres is **reused from the sibling capypad project** (same droplet, container `capypad-postgres`, port `127.0.0.1:5432`), but in a **separate database `capylink`** with a dedicated user — do not share the `capypad` database (Keycloak and the capypad backend already live there).
 
-- Container on the droplet: attach to the `capypad-net` network (`external: true`), JDBC `jdbc:postgresql://postgres:5432/capylink`.
+- Container on the droplet: attach to capypad's shared network, JDBC `jdbc:postgresql://postgres:5432/capylink`. Compose prefixes network names with the project, so the real external network is **`capypad_capypad-net`** (not `capypad-net`) — `docker-compose.yml` maps it via `networks.capypad-net.name`.
 - Process on the droplet: `jdbc:postgresql://127.0.0.1:5432/capylink` (port only listens on localhost, so external access is impossible by design).
 - Locally: spin up your own Postgres — Quarkus Dev Services will do this automatically during `quarkus:dev` if Docker is running and `quarkus.datasource.devservices.enabled` is not disabled.
 

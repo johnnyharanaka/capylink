@@ -27,6 +27,8 @@ services:
           memory: 350M
 
 networks:
-  # Created by the capypad stack — we just join it.
+  # Created by the capypad stack — we just join it. Compose prefixes network
+  # names with the project, so the real network is `capypad_capypad-net`.
   capypad-net:
     external: true
+    name: capypad_capypad-net
